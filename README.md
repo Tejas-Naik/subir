@@ -1,71 +1,67 @@
-![](./readmeImg/banner.png)
+# Subir Photography Studio
 
-# Artistic 📸
+A modern, responsive photography studio website built with React.js, featuring a beautiful UI and seamless user experience.
 
-**Live preview: [https://artistic-rk.netlify.app/](https://artistic-rk.netlify.app/)**
+## 🌟 Features
 
----
+- Modern and responsive design
+- Dark/Light mode theme switcher
+- Portfolio showcase
+- Pricing packages
+- Contact form
+- Newsletter subscription
+- Team showcase
+- Testimonials section
 
-### Made with ❤️ by [Rutwik Kalbandhe]
+## 🛠️ Technologies Used
 
-Like my works and want to support me?
+- React.js
+- Styled Components
+- React Context API
+- React Icons
+- React Scroll
 
-<a href="https://www.buymeacoffee.com/rutwikk" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/v2/default-blue.png" alt="Buy Me A Coffee" style="height: 45px !important;width: 162.75px !important;" ></a>
+## 🚀 Getting Started
 
----
+1. Clone the repository:
+```bash
+git clone https://github.com/Tejas-Naik/subir.git
+```
 
-## Project Description
-
-Artistic is a landing page for a photography studio. This is a well-designed and `responsive` landing page with `dark mode` feature. The main purpose of this project is to show how to create a landing page with `dark mode` feature using `ReactJs`.
-We will be using React Context API to toggle `dark mode` feature. Hope you enjoy it!.
-
-## What we are going to learn/use
-
-- [ReactJs](https://reactjs.org/)
-- [Styled Components](https://styled-components.com/)
-- [React Context API](https://reactjs.org/docs/context.html)
-- [React Hooks](https://reactjs.org/docs/hooks-intro.html)
-- [React Icons](https://www.npmjs.com/package/react-icons)
-- [React Scroll](https://www.npmjs.com/package/react-scroll)
-- More . . .
-
-## Requirements
-
-- Basic ReactJs knowledge
-- Basic HTML, CSS knowledge
-
-## Getting Started
-
-You can find all the this project repo, you can to go to the code option and `download zip` file or You can clone the project.
-
-After getting the project files, you need to go the file directory and run
-
-```shell
+2. Install dependencies:
+```bash
 npm install
 ```
 
-and after that start the dev server.
-
-```shell
+3. Start the development server:
+```bash
 npm start
 ```
 
-## Tools Used
+## 📁 Project Structure
 
-1. Images: [Unsplash](https://unsplash.com/)
-1. UI Design: [Figma](https://www.figma.com/)
-1. Code Editor: [VS Code](https://code.visualstudio.com/)
+- `/src`
+  - `/components` - Reusable UI components
+  - `/pages` - Main page components
+  - `/assets` - Images and static assets
+  - `/contexts` - React Context providers
+  - `/styles` - Global styles and theme
 
----
+## 🎨 Features Overview
 
-### Q: Who the project is for?
+- **Portfolio Section**: Showcase of photography work
+- **Services**: Different photography packages and services
+- **Pricing**: Transparent pricing plans
+- **Team**: Meet our professional photographers
+- **Contact**: Easy-to-use contact form
 
-The project is for the people who wanna get more skilled in `ReactJs`.
+## 📱 Responsive Design
 
----
+The website is fully responsive and works seamlessly across:
+- Desktop
+- Tablet
+- Mobile devices
 
-## License
+## 🤝 Contributing
 
-[MIT](https://choosealicense.com/licenses/mit/)
-
-Happy Coding! 🚀
+Contributions, issues, and feature requests are welcome!
