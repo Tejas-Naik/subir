@@ -43,7 +43,7 @@ function AboutSection() {
       <div className="container">
         <div className="about__wrapper">
           <div className="about__img">
-            <img src={AboutImg} alt="Artistic" />
+            <img src={AboutImg} alt="Subir" />
           </div>
           <div className="about__info">
             <ParagraphText className="about__subtitle">
@@ -53,7 +53,7 @@ function AboutSection() {
               Capturing life as it happens
             </SectionTitle>
             <ParagraphText className="about__desc">
-              “Artistic” is a studio of some passionate photographer. Our Goal
+              "Subir" is a studio of some passionate photographer. Our Goal
               is to capture your experience.
             </ParagraphText>
             <PrimaryButton buttonType={Link} to="contact" smooth>

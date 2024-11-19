@@ -61,7 +61,7 @@ function Footer() {
             <Logo className="footer__logo" />
           </Link>
           <ParagraphText className="footer__desc">
-            “Artistic” is a studio of some passionate photographer. Our Goal is
+            “Subir” is a studio of some passionate photographer. Our Goal is
             to capture your experience.
           </ParagraphText>
           <div className="footer__links">
@@ -89,7 +89,7 @@ function Footer() {
             </ul>
           </div>
           <ParagraphText className="footer__copyright">
-            © Artistic Creative {new Date().getFullYear()}. All rights reserved
+            © Subir Creative {new Date().getFullYear()}. All rights reserved
           </ParagraphText>
         </div>
       </div>

@@ -13,6 +13,7 @@ const HeaderStyles = styled.header`
   left: 0;
   width: 100%;
   height: var(--header-height);
+  z-index: 1000;
   background-color: ${({ theme: { theme } }) =>
     theme === themeList.light ? 'var(--lightBlue_1)' : 'var(--darkBlue_3)'};
   border-bottom: 1px solid var(--mediumSlateBlue);
