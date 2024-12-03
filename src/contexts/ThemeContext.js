@@ -1,7 +1,7 @@
-import { createContext, useReducer } from 'react';
+import React from 'react';
 import themeList from '../data/themeList';
 
-const ThemeContext = createContext();
+const ThemeContext = React.createContext();
 const lightTheme = themeList.light;
 const darkTheme = themeList.dark;
 
@@ -41,7 +41,7 @@ const ThemeContextProvider = ({ children }) => {
     theme: getInitialTheme(),
   };
 
-  const [state, dispatch] = useReducer(themeReducer, initialState);
+  const [state, dispatch] = React.useReducer(themeReducer, initialState);
   const value = {
     theme: state.theme,
     toggleTheme: () => dispatch({ type: 'TOGGLE_THEME' }),

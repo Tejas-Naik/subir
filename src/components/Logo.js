@@ -3,6 +3,9 @@ import styled from 'styled-components';
 
 const LogoStyles = styled.div`
   max-width: 200px;
+  display: flex;
+  align-items: center;
+  height: 100%;
   .logo-text {
     font-style: italic;
     font-weight: bold;

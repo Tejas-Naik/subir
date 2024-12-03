@@ -1,12 +1,13 @@
 import React from 'react';
 import styled from 'styled-components';
+import { motion, AnimatePresence } from 'framer-motion';
 import { MdStar, MdCheck, MdClose } from 'react-icons/md';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 import SectionTitle from '../components/titles/SectionTitle';
 import PrimaryButton from '../components/buttons/PrimaryButton';
 
-const PricingStyles = styled.div`
+const PricingStyles = styled(motion.div)`
   padding: 15rem 0 10rem 0;
   .pricing__wrapper {
     position: relative;
@@ -36,13 +37,14 @@ const PricingStyles = styled.div`
     padding: 4.5rem 2.5rem 3.5rem;
     border-radius: 12px;
     position: relative;
-    transition: all 0.3s ease;
+    transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
     min-height: 600px;
     display: flex;
     flex-direction: column;
     &:hover {
       background: var(--darkBlue_3);
       transform: translateY(-10px);
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
     }
     &.recommended {
       background: var(--mediumSlateBlue);
@@ -66,6 +68,7 @@ const PricingStyles = styled.div`
         align-items: center;
         gap: 0.5rem;
         white-space: nowrap;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
       }
     }
   }
@@ -115,97 +118,209 @@ const PricingStyles = styled.div`
   }
 `;
 
+const pageVariants = {
+  initial: {
+    opacity: 0,
+    y: 20
+  },
+  animate: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      duration: 0.5,
+      ease: "easeOut"
+    }
+  },
+  exit: {
+    opacity: 0,
+    y: -20,
+    transition: {
+      duration: 0.3
+    }
+  }
+};
+
+const cardVariants = {
+  initial: {
+    opacity: 0,
+    y: 50,
+    scale: 0.9
+  },
+  animate: {
+    opacity: 1,
+    y: 0,
+    scale: 1,
+    transition: {
+      duration: 0.5,
+      ease: "easeOut"
+    }
+  }
+};
+
+const containerVariants = {
+  animate: {
+    transition: {
+      staggerChildren: 0.1
+    }
+  }
+};
+
 function Pricing() {
   const pricingItems = [
     {
       id: 1,
-      name: 'Basic Package',
-      price: 350,
-      originalPrice: 400,
+      name: 'Mini Package',
+      price: 150,
       features: [
         'Professional photographer',
-        '250-500 photos delivered',
+        '50 photos delivered',
         'Select photos professionally edited',
-        'Optional ceremony video (+$30)',
+        'Digital delivery',
       ],
     },
     {
       id: 2,
+      name: 'Basic Package',
+      price: 250,
+      features: [
+        'Professional photographer',
+        '100 photos delivered',
+        'Select photos professionally edited',
+        'Digital delivery',
+        'Optional ceremony video (+$30)',
+      ],
+    },
+    {
+      id: 3,
       name: 'Premium Package',
       price: 500,
       recommended: true,
       features: [
         '2 Professional Photographers',
         '500-750 Photos Delivered',
-        'Select Photos Professionally Edited',
+        'All Photos Professionally Edited',
         'Ceremony Video',
+        'Digital delivery',
       ],
     },
     {
-      id: 3,
+      id: 4,
       name: 'Ultimate Package',
       price: 750,
       originalPrice: 1000,
       features: [
         '2 Professional Photographers',
-        '1000 Photos Delivered',
-        'Select Photos Professionally Edited',
+        '1000+ Photos Delivered',
+        'All Photos Professionally Edited',
         'Ceremony Video',
         'Vintage Party Video',
+        'Premium photo album',
       ],
     },
   ];
 
   return (
-    <>
-      <Header />
-      <PricingStyles>
-        <div className="container">
-          <div className="pricing__wrapper">
-            <SectionTitle className="pricing__title">
-              Our Pricing Plans
-            </SectionTitle>
-            <div className="pricing__items">
-              {pricingItems.map((item) => (
-                <div
-                  key={item.id}
-                  className={`pricing__item ${item.recommended ? 'recommended' : ''}`}
-                >
-                  {item.recommended && (
-                    <div className="recommended-label">
-                      <MdStar /> Most Popular
-                    </div>
-                  )}
-                  <h3 className="pricing__item-name">{item.name}</h3>
-                  <div className="pricing__item-price">
-                    ${item.price}
-                    {item.originalPrice && (
-                      <span className="original-price">${item.originalPrice}</span>
+    <AnimatePresence mode="wait">
+      <motion.div
+        initial="initial"
+        animate="animate"
+        exit="exit"
+        variants={pageVariants}
+      >
+        <Header />
+        <PricingStyles>
+          <div className="container">
+            <motion.div 
+              className="pricing__wrapper"
+              variants={containerVariants}
+            >
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6 }}
+              >
+                <SectionTitle className="pricing__title">
+                  Our Pricing Plans
+                </SectionTitle>
+              </motion.div>
+              
+              <motion.div 
+                className="pricing__items"
+                variants={containerVariants}
+              >
+                {pricingItems.map((item) => (
+                  <motion.div
+                    key={item.id}
+                    className={`pricing__item ${item.recommended ? 'recommended' : ''}`}
+                    variants={cardVariants}
+                    whileHover={{ 
+                      scale: 1.03,
+                      transition: { duration: 0.3 }
+                    }}
+                  >
+                    {item.recommended && (
+                      <motion.div 
+                        className="recommended-label"
+                        initial={{ opacity: 0, y: -20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ delay: 0.2 }}
+                      >
+                        <MdStar /> Most Popular
+                      </motion.div>
                     )}
-                  </div>
-                  <ul className="pricing__item-features">
-                    {item.features.map((feature, index) => (
-                      <li key={index}>
-                        <MdCheck style={{width: '25px'}} /> {feature}
-                      </li>
-                    ))}
-                    {item.id <= 2 && (
-                      <li>
-                        <MdClose style={{width: '25px', color: 'var(--lightBlue_1)'}} />
-                      </li>
-                    )}
-                  </ul>
-                  <div className="pricing__item-btn">
-                    <PrimaryButton to="/contact">Book Now</PrimaryButton>
-                  </div>
-                </div>
-              ))}
-            </div>
+                    <motion.h3 
+                      className="pricing__item-name"
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      transition={{ delay: 0.1 }}
+                    >
+                      {item.name}
+                    </motion.h3>
+                    <motion.div 
+                      className="pricing__item-price"
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      transition={{ delay: 0.2 }}
+                    >
+                      ${item.price}
+                      {item.originalPrice && (
+                        <span className="original-price">${item.originalPrice}</span>
+                      )}
+                    </motion.div>
+                    <motion.ul 
+                      className="pricing__item-features"
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      transition={{ delay: 0.3 }}
+                    >
+                      {item.features.map((feature, index) => (
+                        <motion.li 
+                          key={index}
+                          initial={{ opacity: 0, x: -20 }}
+                          animate={{ opacity: 1, x: 0 }}
+                          transition={{ delay: 0.4 + index * 0.1 }}
+                        >
+                          <MdCheck /> {feature}
+                        </motion.li>
+                      ))}
+                    </motion.ul>
+                    <motion.div 
+                      className="pricing__item-btn"
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      transition={{ delay: 0.5 }}
+                    >
+                      <PrimaryButton to="/contact">Choose Plan</PrimaryButton>
+                    </motion.div>
+                  </motion.div>
+                ))}
+              </motion.div>
+            </motion.div>
           </div>
-        </div>
-      </PricingStyles>
-      <Footer />
-    </>
+        </PricingStyles>
+        <Footer />
+      </motion.div>
+    </AnimatePresence>
   );
 }
 

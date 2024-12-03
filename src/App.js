@@ -1,25 +1,25 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import { ThemeProvider } from 'styled-components';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import ThemeContext from './contexts/ThemeContext';
 import LandingPage from './pages/LandingPage';
 import Portfolio from './pages/Portfolio';
 import Pricing from './pages/Pricing';
 import GlobalStyles from './styles/GlobalStyles';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
 function App() {
-  const { theme } = useContext(ThemeContext);
+  const { theme } = React.useContext(ThemeContext);
   
   return (
     <ThemeProvider theme={{ theme }}>
-      <Router>
+      <BrowserRouter>
         <GlobalStyles />
         <Routes>
           <Route path="/" element={<LandingPage />} />
           <Route path="/portfolio" element={<Portfolio />} />
           <Route path="/pricing" element={<Pricing />} />
         </Routes>
-      </Router>
+      </BrowserRouter>
     </ThemeProvider>
   );
 }

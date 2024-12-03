@@ -53,7 +53,7 @@ function AboutSection() {
               Capturing life as it happens
             </SectionTitle>
             <ParagraphText className="about__desc">
-              "Subir" is a studio of some passionate photographer. Our Goal
+              Subir is a studio with many of the best, most passionate photographers. Our Goal
               is to capture your experience.
             </ParagraphText>
             <PrimaryButton buttonType={Link} to="contact" smooth>
