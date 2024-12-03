@@ -7,84 +7,74 @@ import Footer from '../components/Footer';
 import SectionTitle from '../components/titles/SectionTitle';
 import PrimaryButton from '../components/buttons/PrimaryButton';
 
-const PricingStyles = styled(motion.div)`
-  padding: 15rem 0 10rem 0;
+const PricingStyles = styled.div`
+  padding: 5rem 0;
+  min-height: 100vh;
+
   .pricing__wrapper {
-    position: relative;
     max-width: 1200px;
     margin: 0 auto;
     padding: 0 1.5rem;
   }
-  .pricing__title {
-    text-align: center;
-    margin-bottom: 3rem;
-  }
-  .pricing__items {
-    display: flex;
+
+  .pricing__grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
     gap: 2rem;
-    justify-content: center;
-    margin-top: 5rem;
-    @media only screen and (max-width: 768px) {
-      flex-direction: column;
-      max-width: 350px;
-      margin: 0 auto;
-      gap: 5rem;
-    }
+    margin-top: 3rem;
   }
-  .pricing__item {
-    width: 350px;
+
+  .pricing__card {
     background: var(--darkBlue_2);
-    padding: 4.5rem 2.5rem 3.5rem;
-    border-radius: 12px;
-    position: relative;
-    transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-    min-height: 600px;
-    display: flex;
-    flex-direction: column;
+    border-radius: 10px;
+    padding: 2rem;
+    text-align: center;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
+
     &:hover {
-      background: var(--darkBlue_3);
-      transform: translateY(-10px);
-      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
-    }
-    &.recommended {
-      background: var(--mediumSlateBlue);
-      .pricing__item-name,
-      .pricing__item-price,
-      .pricing__item-features li {
-        color: var(--lightBlue_1);
-      }
-      .recommended-label {
-        position: absolute;
-        top: -12px;
-        left: 50%;
-        transform: translateX(-50%);
-        background: var(--darkBlue_3);
-        color: var(--lightBlue_1);
-        padding: 0.4rem 1.5rem;
-        border-radius: 4px;
-        font-size: 1.4rem;
-        font-weight: 500;
-        display: flex;
-        align-items: center;
-        gap: 0.5rem;
-        white-space: nowrap;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-      }
+      transform: translateY(-5px);
     }
   }
+
+  .pricing__card.recommended {
+    background: var(--mediumSlateBlue);
+    .pricing__item-name,
+    .pricing__item-price,
+    .pricing__item-features li {
+      color: var(--lightBlue_1);
+    }
+    .recommended-label {
+      position: absolute;
+      top: -12px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: var(--darkBlue_3);
+      color: var(--lightBlue_1);
+      padding: 0.4rem 1.5rem;
+      border-radius: 4px;
+      font-size: 1.4rem;
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      white-space: nowrap;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    }
+  }
+
   .pricing__item-name {
     font-size: 2.8rem;
     font-weight: 500;
     color: var(--lightBlue_1);
     margin-bottom: 2rem;
-    text-align: center;
   }
+
   .pricing__item-price {
     font-size: 4rem;
     font-family: 'Poppins', sans-serif;
     color: var(--lightBlue_1);
     margin-bottom: 3rem;
-    text-align: center;
     .original-price {
       font-size: 2rem;
       color: var(--gray-1);
@@ -92,6 +82,7 @@ const PricingStyles = styled(motion.div)`
       margin-left: 1rem;
     }
   }
+
   .pricing__item-features {
     list-style: none;
     margin: 3rem 0;
@@ -110,11 +101,31 @@ const PricingStyles = styled(motion.div)`
       }
     }
   }
+
   .pricing__item-btn {
     width: 100%;
     text-align: center;
     margin-top: auto;
     padding-top: 2rem;
+  }
+
+  @media (max-width: 768px) {
+    padding: 3rem 0;
+
+    .pricing__wrapper {
+      padding: 0 1rem;
+    }
+
+    .pricing__grid {
+      grid-template-columns: 1fr;
+      max-width: 400px;
+      margin: 2rem auto;
+    }
+
+    .pricing__card {
+      margin: 0 auto;
+      width: 100%;
+    }
   }
 `;
 
@@ -245,13 +256,13 @@ function Pricing() {
               </motion.div>
               
               <motion.div 
-                className="pricing__items"
+                className="pricing__grid"
                 variants={containerVariants}
               >
                 {pricingItems.map((item) => (
                   <motion.div
                     key={item.id}
-                    className={`pricing__item ${item.recommended ? 'recommended' : ''}`}
+                    className={`pricing__card ${item.recommended ? 'recommended' : ''}`}
                     variants={cardVariants}
                     whileHover={{ 
                       scale: 1.03,

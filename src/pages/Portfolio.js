@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import styled from 'styled-components';
 import { motion, AnimatePresence, useScroll, useTransform } from 'framer-motion';
 import { LazyLoadImage } from 'react-lazy-load-image-component';
@@ -10,251 +10,70 @@ import ParagraphText from '../components/paragraphTexts/ParagraphText';
 import useTouch from '../hooks/useTouch';
 
 const PortfolioStyles = styled.div`
-  padding: 10rem 0;
+  padding: 5rem 0;
   min-height: 100vh;
-  overflow: visible;
   position: relative;
+  overflow-y: auto !important;
+  -webkit-overflow-scrolling: touch;
 
   .portfolio__wrapper {
     position: relative;
     max-width: 1200px;
     margin: 0 auto;
     padding: 0 1.5rem;
-    overflow: visible;
-    touch-action: pan-y pinch-zoom;
-  }
-
-  .portfolio__header {
-    text-align: center;
-    margin-bottom: 5rem;
-    opacity: 1;
-    transform: none;
   }
 
   .portfolio__grid {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
     gap: 2rem;
-    margin: 3rem auto;
-    max-width: 1200px;
-    padding: 0 1.5rem;
-    grid-auto-rows: 400px;
-
-    @media only screen and (max-width: 768px) {
-      grid-template-columns: 1fr;
-      gap: 1.5rem;
-      grid-auto-rows: 300px;
-      padding: 0 1rem;
-    }
-
-    @media only screen and (min-width: 769px) and (max-width: 1024px) {
-      grid-template-columns: repeat(2, 1fr);
-    }
+    padding-bottom: 2rem;
   }
 
   .portfolio__item {
     position: relative;
-    overflow: hidden;
-    border-radius: 12px;
-    cursor: pointer;
+    height: 300px;
     background: #f0f0f0;
-    height: 100%;
-    width: 100%;
-    opacity: 0;
-
-    &:nth-child(3n+1) {
-      grid-row: span 2;
-
-      @media only screen and (max-width: 768px) {
-        grid-row: span 1;
-      }
-    }
-
-    .lazy-load-image-background {
-      width: 100% !important;
-      height: 100% !important;
-      display: block !important;
-      background-size: cover !important;
-
-      span {
-        height: 100% !important;
-      }
-
-      img {
-        width: 100% !important;
-        height: 100% !important;
-        object-fit: cover !important;
-        transition: transform 0.3s ease-in-out;
-      }
-    }
-
-    .overlay {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: rgba(0, 0, 0, 0.5);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      opacity: 0;
-      transition: all 0.5s ease-in-out;
-      transform: translateY(20px);
-
-      .overlay__content {
-        text-align: center;
-        color: white;
-        transform: translateY(20px);
-        opacity: 0;
-        transition: all 0.5s ease-in-out;
-        transition-delay: 0.1s;
-        padding: 0 1rem;
-      }
-    }
-
-    &:hover {
-      .lazy-load-image-background img {
-        transform: scale(1.1);
-      }
-      .overlay {
-        opacity: 1;
-        transform: translateY(0);
-
-        .overlay__content {
-          transform: translateY(0);
-          opacity: 1;
-        }
-      }
-    }
-  }
-
-  .modal {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.95);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    z-index: 1000;
-    padding: 2rem;
-    overflow-y: auto;
-
-    .image-container {
-      position: relative;
-      max-width: 1200px;
-      width: 90%;
-      margin: 0 auto;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      max-height: 90vh;
-    }
+    border-radius: 8px;
+    overflow: hidden;
 
     img {
-      max-width: 100%;
-      max-height: 90vh;
-      object-fit: contain;
-      margin: 0 auto;
-      box-shadow: 0 10px 30px -5px rgba(0, 0, 0, 0.3);
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.3s ease;
     }
 
-    .controls {
-      position: absolute;
-      bottom: 2rem;
-      left: 50%;
-      transform: translateX(-50%);
-      display: flex;
-      gap: 2rem;
-      background: rgba(255, 255, 255, 0.1);
-      padding: 1rem 2rem;
-      border-radius: 50px;
-      backdrop-filter: blur(10px);
-    }
-
-    .nav-button {
-      background: none;
-      border: none;
-      color: white;
-      font-size: 3rem;
-      cursor: pointer;
-      padding: 1rem;
-      transition: all 0.3s ease;
-      opacity: 0.7;
-      
-      &:hover {
-        opacity: 1;
-        transform: scale(1.1);
-      }
-
-      &.prev {
-        left: 2rem;
-      }
-
-      &.next {
-        right: 2rem;
-      }
-    }
-
-    .close-button {
-      position: absolute;
-      top: 2rem;
-      right: 2rem;
-      background: rgba(255, 255, 255, 0.1);
-      border: none;
-      color: white;
-      font-size: 2.5rem;
-      cursor: pointer;
-      z-index: 2;
-      transition: all 0.3s ease;
-      width: 50px;
-      height: 50px;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      backdrop-filter: blur(10px);
-      
-      &:hover {
-        background: rgba(255, 255, 255, 0.2);
-        transform: rotate(90deg);
+    &.loading {
+      &::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+        background-size: 200% 100%;
+        animation: loading 1.5s infinite;
       }
     }
   }
 
-  /* Mobile-specific styles */
+  @keyframes loading {
+    0% { background-position: 200% 0; }
+    100% { background-position: -200% 0; }
+  }
+
   @media (max-width: 768px) {
-    padding: 5rem 0;
+    padding: 3rem 0;
     
-    .portfolio__wrapper {
-      padding: 0 1rem;
+    .portfolio__grid {
+      grid-template-columns: 1fr;
+      gap: 1.5rem;
     }
 
-    .portfolio__header {
-      margin-bottom: 3rem;
-    }
-  }
-
-  /* Add pull-to-refresh indicator */
-  .pull-indicator {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 60px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: rgba(255, 255, 255, 0.9);
-    transform: translateY(-100%);
-    transition: transform 0.3s ease;
-    z-index: 1000;
-    
-    &.active {
-      transform: translateY(0);
+    .portfolio__item {
+      height: 250px;
     }
   }
 `;
@@ -322,8 +141,39 @@ function Portfolio() {
   const { scrollYProgress } = useScroll();
   const opacity = useTransform(scrollYProgress, [0, 0.2], [0, 1]);
   const scale = useTransform(scrollYProgress, [0, 0.2], [0.8, 1]);
+  const imageObserver = useRef(null);
+  const [images, setImages] = useState([]);
+  const [loading, setLoading] = useState(true);
 
-  const images = [
+  useEffect(() => {
+    // Initialize Intersection Observer for lazy loading
+    imageObserver.current = new IntersectionObserver(
+      (entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            const img = entry.target;
+            if (img.dataset.src) {
+              img.src = img.dataset.src;
+              img.removeAttribute('data-src');
+              imageObserver.current.unobserve(img);
+            }
+          }
+        });
+      },
+      {
+        rootMargin: '50px 0px',
+        threshold: 0.1
+      }
+    );
+
+    return () => {
+      if (imageObserver.current) {
+        imageObserver.current.disconnect();
+      }
+    };
+  }, []);
+
+  const imagesData = [
     'IMG_9265.JPG',
     'IMG_9273.JPG',
     'IMG_9277.JPG',
@@ -344,12 +194,13 @@ function Portfolio() {
     'IMG_2966.JPG'
   ];
 
-  const portfolioItems = React.useMemo(() => images.map((image, index) => ({
+  const portfolioItems = React.useMemo(() => imagesData.map((image, index) => ({
     id: index + 1,
     src: `/wed-images/Coloured photos/${image}`,
     alt: `Wedding photo ${index + 1}`,
-    placeholder: `/wed-images/Coloured photos/thumbnails/${image}`
-  })), [images]);
+    placeholder: `/wed-images/Coloured photos/thumbnails/${image}`,
+    loaded: false
+  })), [imagesData]);
 
   const handleImageLoad = (id) => {
     setLoadedImages(prev => new Set([...prev, id]));
@@ -454,31 +305,22 @@ function Portfolio() {
             {portfolioItems.map((item, index) => (
               <motion.div
                 key={item.id}
-                className="portfolio__item"
-                variants={itemVariants}
-                whileHover={{ y: -10 }}
+                className={`portfolio__item ${!loadedImages.has(item.id) ? 'loading' : ''}`}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: index * 0.1 }}
                 onClick={() => openModal(item, index)}
               >
-                <LazyLoadImage
-                  src={item.src}
+                <img
+                  data-src={item.src}
                   alt={item.alt}
-                  effect="blur"
-                  width="100%"
-                  height="100%"
-                  placeholder={
-                    <div style={{ 
-                      width: '100%', 
-                      height: '100%', 
-                      background: '#f0f0f0',
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'center'
-                    }}>
-                      Loading...
-                    </div>
-                  }
-                  afterLoad={() => handleImageLoad(item.id)}
-                  wrapperClassName="lazy-load-image-wrapper"
+                  loading="lazy"
+                  onLoad={() => handleImageLoad(item.id)}
+                  ref={img => {
+                    if (img && !loadedImages.has(item.id)) {
+                      imageObserver.current?.observe(img);
+                    }
+                  }}
                 />
                 <div className="overlay">
                   <div className="overlay__content">
